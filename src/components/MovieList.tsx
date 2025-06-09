@@ -4,7 +4,7 @@ import { useNetwork } from '@/hooks/useNetwork';
 import MovieCard from '@/components/MovieCard';
 import { Alert, Input, Pagination, Spin } from 'antd';
 import { useMemo, useTransition } from 'react';
-import { debounce } from '@/utils/debounce';
+import debounce from 'lodash.debounce';
 
 interface Movie {
   id: number;
@@ -45,15 +45,13 @@ export default function MovieList({
     return genreIds.map((id) => genreMap[id] || 'Unknown');
   };
 
-  const handleSearch = useMemo(
-    () =>
-      debounce((value: string) => {
-        startTransition(() => {
-          router.push(`/?query=${value}&page=1`);
-        });
-      }, 500),
-    [router],
-  );
+  const handleSearch = useMemo(() => {
+    return debounce((value: string) => {
+      startTransition(() => {
+        router.push(`/?query=${value}&page=1`);
+      });
+    }, 500);
+  }, [router]);
 
   const handlePageChange = (page: number) => {
     startTransition(() => {
