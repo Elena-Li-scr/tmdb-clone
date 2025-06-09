@@ -10,25 +10,39 @@ main {
 }
 
 .container {
-  width: 1010px;
+  width: 100%;
   margin: 0px auto;
-  padding: 20px 30px;
+  padding: 20px;
   background-color: #ffffff;
+  min-height: 100vh;
 }
 
+.search-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ant-tabs-nav {
+  width: 146px;
+  margin: 0px auto 20px auto !important;
+}
 .movie-list {
-  display: grid;
-  grid-template-columns: 469px 469px;
-  gap: 26px;
-  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
 }
 
 .custom-card {
   border-radius: 0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
-  width: 454px;
+  width: 388px;
   padding-right: 10px;
+  position: relative;
 }
 
 .custom-card .ant-card-body {
@@ -48,6 +62,31 @@ main {
 
 .card-poster {
   margin-right: 20px;
+}
+
+.card-title {
+  width: 150px;
+}
+
+.rating-circle {
+  width: 30px;
+  height: 30px;
+  color: #000000;
+  font-weight: 400;
+  border-radius: 50%;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.user-rating {
+  position: absolute;
+  bottom: 10px;
+  right: 55px;
 }
 
 .card-date {
@@ -72,6 +111,40 @@ img {
 
 .spinner {
   margin-top: 30px;
-  display: flex;
-  justify-content: center;
+  align-self: center;
+  text-align: center;
+}
+
+@media screen and (min-width: 1010px) {
+  .movie-list {
+    display: grid;
+    grid-template-columns: 469px 469px;
+    gap: 26px;
+    margin-top: 30px;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .container {
+    width: 1010px;
+    padding: 20px 30px;
+  }
+
+  .search-wrapper {
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .ant-pagination {
+    align-self: center;
+  }
+
+  .custom-card {
+    width: 454px;
+  }
+
+  .user-rating {
+    bottom: 10px;
+    right: 115px;
+  }
 }

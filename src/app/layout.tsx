@@ -3,6 +3,7 @@ import './globals.css';
 import { ReactNode } from 'react';
 import { ConfigProvider } from 'antd';
 import { Inter } from 'next/font/google';
+import { AppProvider } from '@/context/AppContext';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -18,7 +19,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={inter.className}>
       <body>
-        <ConfigProvider>{children}</ConfigProvider>
+        <AppProvider>
+          <ConfigProvider>{children}</ConfigProvider>
+        </AppProvider>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, Tag, Typography } from 'antd';
+import { Card, Tag, Typography, Rate } from 'antd';
 import { format } from 'date-fns';
 import Image from 'next/image';
 
@@ -12,6 +12,15 @@ interface MovieCardProps {
   releaseDate: string;
   posterPath: string;
   genres: string[];
+  userRating?: number;
+  onRate?: (value: number) => void;
+}
+
+function getRatingColor(rating: number): string {
+  if (rating <= 3) return '#E90000';
+  if (rating <= 5) return '#E97E00';
+  if (rating <= 7) return '#E9D100';
+  return '#66E900';
 }
 
 export default function MovieCard({
@@ -20,6 +29,8 @@ export default function MovieCard({
   releaseDate,
   posterPath,
   genres,
+  userRating,
+  onRate,
 }: MovieCardProps) {
   const formattedDate =
     releaseDate && !isNaN(new Date(releaseDate).getTime())
@@ -41,7 +52,19 @@ export default function MovieCard({
         />
       </div>
       <div className="card-info">
-        <Title level={5}>{title}</Title>
+        <div className="card-title">
+          <Title level={5}>{title}</Title>
+        </div>
+        {userRating !== undefined && (
+          <div
+            className="rating-circle"
+            style={{
+              border: `1px solid ${getRatingColor(userRating)}`,
+            }}
+          >
+            {userRating.toFixed(1)}
+          </div>
+        )}
         <p className="card-date">{formattedDate}</p>
         <div className="card-genre">
           {genres.map((genre, idx) => (
@@ -54,6 +77,13 @@ export default function MovieCard({
         >
           {overview}
         </Paragraph>
+        <div className="user-rating">
+          {userRating !== undefined ? (
+            <Rate allowHalf disabled value={userRating / 2} />
+          ) : onRate ? (
+            <Rate allowHalf value={0} onChange={onRate} />
+          ) : null}
+        </div>
       </div>
     </Card>
   );
