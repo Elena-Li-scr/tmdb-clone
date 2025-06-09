@@ -50,7 +50,7 @@ export default function MovieCard({
         </div>
         <Paragraph
           className="card-description"
-          ellipsis={{ rows: 6, expandable: false }}
+          ellipsis={{ rows: 4, expandable: false }}
         >
           {overview}
         </Paragraph>
