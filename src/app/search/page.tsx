@@ -11,7 +11,8 @@ export default async function MoviePage({
 
   const pageNumber = parseInt(page, 10);
   const { data: movies, total } = await fetchMoviesByKeyword(query, pageNumber);
-  const moviesStart = await fetchMovies();
+  const { data: moviesStart, total: startTotal } =
+    await fetchMovies(pageNumber);
 
   return (
     <>
@@ -21,8 +22,9 @@ export default async function MoviePage({
         moviesStart={moviesStart}
       />
       <MovieSearchPagination
+        moviesStart={moviesStart}
         movies={movies}
-        total={total}
+        total={query.trim() === '' ? startTotal : total}
         currentPage={pageNumber}
         searchQuery={query}
       />

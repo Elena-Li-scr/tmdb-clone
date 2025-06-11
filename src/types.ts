@@ -28,4 +28,6 @@ export interface AppContextType {
   setCurrentRatedPage: React.Dispatch<React.SetStateAction<number>>;
   currentRatedPage: number;
   totalRated: number;
+  ratedMap: Record<number, number>;
+  setRatedMap: React.Dispatch<React.SetStateAction<Record<number, number>>>;
 }

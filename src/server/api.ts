@@ -23,16 +23,19 @@ function handleAxiosError(error: unknown, context: string): never {
 
 //fetch all movies
 
-export async function fetchMovies() {
+export async function fetchMovies(page = 1) {
   try {
     const response = await tmdb.get('/discover/movie', {
       params: {
         sort_by: 'popularity.desc',
-        page: 1,
+        page,
       },
     });
 
-    return response.data.results;
+    return {
+      data: response.data.results,
+      total: response.data.total_results,
+    };
   } catch (error: unknown) {
     handleAxiosError(error, 'fetching movies');
   }

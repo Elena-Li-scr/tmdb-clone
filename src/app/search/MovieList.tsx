@@ -5,7 +5,7 @@ import MovieCard from '@/components/MovieCard';
 import Spinner from '@/components/Spinner';
 
 import { Alert, Input } from 'antd';
-import { useMemo, useTransition, useState } from 'react';
+import { useMemo, useTransition } from 'react';
 import debounce from 'lodash.debounce';
 import { useAppContext } from '@/context/AppContext';
 import { rateMovie } from '@/server/api';
@@ -21,8 +21,8 @@ export default function MovieList({ movies, searchQuery, moviesStart }: Props) {
   const router = useRouter();
   const isOnline = useNetwork();
   const [isPending, startTransition] = useTransition();
-  const [ratedMap, setRatedMap] = useState<Record<number, number>>({});
-  const { guestSessionId, genres, updateRatedMovie } = useAppContext();
+  const { guestSessionId, genres, updateRatedMovie, ratedMap, setRatedMap } =
+    useAppContext();
   const visibleMovies = searchQuery.trim() === '' ? moviesStart : movies;
 
   const handleSearch = useMemo(() => {

@@ -23,6 +23,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [ratedMovies, setRatedMovies] = useState<RatedMovie[]>([]);
   const [currentRatedPage, setCurrentRatedPage] = useState(1);
   const [totalRated, setTotalRated] = useState(0);
+  const [ratedMap, setRatedMap] = useState<Record<number, number>>({});
 
   const updateRatedMovie = useCallback(
     (page = 1) => {
@@ -68,6 +69,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         currentRatedPage,
         setCurrentRatedPage,
         totalRated,
+        ratedMap,
+        setRatedMap,
       }}
     >
       {children}

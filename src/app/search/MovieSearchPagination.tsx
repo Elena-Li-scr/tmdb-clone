@@ -5,6 +5,7 @@ import { Movie } from '@/types';
 
 interface Props {
   movies: Movie[];
+  moviesStart: Movie[];
   total: number;
   currentPage: number;
   searchQuery: string;
@@ -12,18 +13,20 @@ interface Props {
 
 export default function MovieSearchPagination({
   movies,
+  moviesStart,
   total,
   currentPage,
   searchQuery,
 }: Props) {
   const router = useRouter();
+  const visibleMovies = searchQuery.trim() === '' ? moviesStart : movies;
 
   const handlePageChange = (page: number) => {
     router.push(`/search?query=${searchQuery}&page=${page}`);
   };
   return (
     <div className="pagination">
-      {movies.length > 0 && (
+      {visibleMovies.length > 0 && (
         <Pagination
           current={currentPage}
           total={total}
