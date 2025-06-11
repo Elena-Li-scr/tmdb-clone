@@ -12,28 +12,7 @@ import {
   fetchGenres,
   fetchRatedMovies,
 } from '@/server/api';
-
-interface RatedMovie {
-  id: number;
-  title: string;
-  overview: string;
-  release_date: string;
-  poster_path: string;
-  genre_ids: number[];
-  vote_average: number;
-  rating: number;
-}
-
-interface AppContextType {
-  guestSessionId: string | null;
-  genres: Record<number, string>;
-  loading: boolean;
-  ratedMovies: RatedMovie[];
-  updateRatedMovie: (page?: number) => void;
-  setCurrentRatedPage: React.Dispatch<React.SetStateAction<number>>;
-  currentRatedPage: number;
-  totalRated: number;
-}
+import { RatedMovie, AppContextType } from '@/types';
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 

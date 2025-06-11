@@ -21,6 +21,25 @@ function handleAxiosError(error: unknown, context: string): never {
   throw new Error(`Unexpected error during ${context}`);
 }
 
+//fetch all movies
+
+export async function fetchMovies() {
+  try {
+    const response = await tmdb.get('/discover/movie', {
+      params: {
+        sort_by: 'popularity.desc',
+        page: 1,
+      },
+    });
+
+    return response.data.results;
+  } catch (error: unknown) {
+    handleAxiosError(error, 'fetching movies');
+  }
+}
+
+//fetch movie by name
+
 export async function fetchMoviesByKeyword(keyword: string, page = 1) {
   try {
     const response = await tmdb.get('/search/movie', {

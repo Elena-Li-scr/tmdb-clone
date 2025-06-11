@@ -3,19 +3,16 @@
 import { Card, Tag, Typography, Rate } from 'antd';
 import { format } from 'date-fns';
 import Image from 'next/image';
+import { Movie } from '@/types';
 
 const { Title, Paragraph } = Typography;
 
 interface MovieCardProps {
-  title: string;
-  overview: string;
-  releaseDate: string;
-  posterPath: string;
+  movie: Movie;
   genres: string[];
   userRating?: number;
   onRate?: (value: number) => void;
 }
-
 function getRatingColor(rating: number): string {
   if (rating <= 3) return '#E90000';
   if (rating <= 5) return '#E97E00';
@@ -24,14 +21,15 @@ function getRatingColor(rating: number): string {
 }
 
 export default function MovieCard({
-  title,
-  overview,
-  releaseDate,
-  posterPath,
+  movie,
   genres,
   userRating,
   onRate,
 }: MovieCardProps) {
+  const releaseDate = movie.release_date;
+  const title = movie.title;
+  const overview = movie.overview;
+  const posterPath = movie.poster_path;
   const formattedDate =
     releaseDate && !isNaN(new Date(releaseDate).getTime())
       ? format(new Date(releaseDate), 'PPP')

@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 import { ConfigProvider } from 'antd';
 import { Inter } from 'next/font/google';
 import { AppProvider } from '@/context/AppContext';
+import TabNavigation from '@/components/TabNavigation';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -20,7 +21,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" className={inter.className}>
       <body>
         <AppProvider>
-          <ConfigProvider>{children}</ConfigProvider>
+          <ConfigProvider>
+            <main>
+              <div className="container">
+                <TabNavigation />
+                {children}
+              </div>
+            </main>
+          </ConfigProvider>
         </AppProvider>
       </body>
     </html>

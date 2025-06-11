@@ -2,54 +2,36 @@
 import { useRouter } from 'next/navigation';
 import { useNetwork } from '@/hooks/useNetwork';
 import MovieCard from '@/components/MovieCard';
-import Spinner from './Spinner';
-import { Alert, Input, Pagination } from 'antd';
+import Spinner from '@/components/Spinner';
+
+import { Alert, Input } from 'antd';
 import { useMemo, useTransition, useState } from 'react';
 import debounce from 'lodash.debounce';
 import { useAppContext } from '@/context/AppContext';
 import { rateMovie } from '@/server/api';
-
-interface Movie {
-  id: number;
-  title: string;
-  overview: string;
-  release_date: string;
-  poster_path: string;
-  genre_ids: number[];
-}
+import { Movie } from '@/types';
 
 interface Props {
   movies: Movie[];
-  total: number;
-  currentPage: number;
+  moviesStart: Movie[];
   searchQuery: string;
 }
 
-export default function SearchTab({
-  movies,
-  total,
-  currentPage,
-  searchQuery,
-}: Props) {
+export default function MovieList({ movies, searchQuery, moviesStart }: Props) {
   const router = useRouter();
   const isOnline = useNetwork();
   const [isPending, startTransition] = useTransition();
   const [ratedMap, setRatedMap] = useState<Record<number, number>>({});
   const { guestSessionId, genres, updateRatedMovie } = useAppContext();
+  const visibleMovies = searchQuery.trim() === '' ? moviesStart : movies;
 
   const handleSearch = useMemo(() => {
     return debounce((value: string) => {
       startTransition(() => {
-        router.push(`/?query=${value}&page=1`);
+        router.push(`/search?query=${value}&page=1`);
       });
     }, 500);
   }, [router]);
-
-  const handlePageChange = (page: number) => {
-    startTransition(() => {
-      router.push(`/?query=${searchQuery}&page=${page}`);
-    });
-  };
 
   if (!isOnline) {
     return (
@@ -72,7 +54,7 @@ export default function SearchTab({
       />
       {isPending ? (
         <Spinner />
-      ) : movies.length === 0 && searchQuery !== '' ? (
+      ) : visibleMovies.length === 0 && searchQuery !== '' ? (
         <Alert
           type="info"
           message="The movie with that name was not found"
@@ -80,13 +62,10 @@ export default function SearchTab({
         />
       ) : (
         <div className="movie-list">
-          {movies.map((movie) => (
+          {visibleMovies.map((movie) => (
             <MovieCard
               key={movie.id}
-              title={movie.title}
-              overview={movie.overview}
-              releaseDate={movie.release_date}
-              posterPath={movie.poster_path}
+              movie={movie}
               genres={movie.genre_ids.map((id) => genres[id] || 'Unknown')}
               userRating={ratedMap[movie.id]}
               onRate={
@@ -104,17 +83,6 @@ export default function SearchTab({
             />
           ))}
         </div>
-      )}
-      {movies.length > 0 && (
-        <Pagination
-          current={currentPage}
-          total={total}
-          pageSize={20}
-          onChange={handlePageChange}
-          showSizeChanger={false}
-          style={{ marginTop: 30, textAlign: 'center' }}
-          align="center"
-        />
       )}
     </div>
   );
