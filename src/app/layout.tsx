@@ -5,6 +5,7 @@ import { ConfigProvider } from 'antd';
 import { Inter } from 'next/font/google';
 import { AppProvider } from '@/context/AppContext';
 import TabNavigation from '@/components/TabNavigation';
+import { Suspense } from 'react';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -24,7 +25,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <ConfigProvider>
             <main>
               <div className="container">
-                <TabNavigation />
+                <Suspense fallback={null}>
+                  <TabNavigation />
+                </Suspense>
+
                 {children}
               </div>
             </main>
